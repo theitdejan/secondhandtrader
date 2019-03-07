@@ -19,7 +19,7 @@ const app = express();
 const port = config.app.port || 5000;
 
 // Serve static react files
-app.use(express.static(path.join(__dirname, 'client/build'))));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Security
 app.use(helmet());
@@ -147,6 +147,15 @@ app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
         error
       });
     })
+});
+
+/**
+ * GET
+ * 
+ * Serve react files.
+ */
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // Server is up and running...
