@@ -14,7 +14,7 @@ const MythicKeystoneAffixUrls = require("../../Urls/WoW/MythicKeystoneAffix");
 /**
  * Retrieve all affixes in EU realms. Usually they are the same as US, but sometimes Blizzard does unexpected things.
  */
-getAllAffixesEU = async () => {
+async function getAllAffixesEU() {
   const authToken = await AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.AllAffixes.EU, {
     headers: {
@@ -64,7 +64,7 @@ getAllAffixesEU = async () => {
 /**
  * Retrieve all affixes in US realms. Usually they are the same as EU, but sometimes Blizzard does unexpected things.
  */
-getAllAffixesUS = async () => {
+async function getAllAffixesUS() {
   const authToken = AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.AllAffixes.US, {
     headers: {
@@ -113,8 +113,10 @@ getAllAffixesUS = async () => {
 
 /**
  * Retrieve single affix with the ID specified from the EU realms.
+ * 
+ * @param {Id} id - Id of the affix.
  */
-getSingleAffixEU = async (id) => {
+async function getSingleAffixEU(id) {
   const authToken = await AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.ById(id, "EU"), {
     headers: {
@@ -141,8 +143,10 @@ getSingleAffixEU = async (id) => {
 
 /**
  * Retrieve single affix with the ID specified from the US realms.
+ * 
+ * @param {Id} id - Id of the affix.
  */
-getSingleAffixUS = async (id) => {
+async function getSingleAffixUS(id) {
   const authToken = await AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.ById(id, "US"), {
     headers: {

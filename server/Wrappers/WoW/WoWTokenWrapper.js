@@ -13,7 +13,7 @@ const WowTokenUrls = require("../../Urls/WoW/WoWToken");
 /**
  * Get the price of the WoW Token in regards to EU region.
  */
-getPriceEU = async () => {
+async function getPriceEU() {
   const authToken = await AuthTokenWrapper.getAuthToken();
   return new Promise((resolve, reject) => {
     fetch(WowTokenUrls.Price.EU, {
@@ -26,14 +26,14 @@ getPriceEU = async () => {
       })
       .catch(error => {
         return reject(JSON.stringify(error));
-      })
+      });
   });
 }
 
 /**
  * Get the price of the WoW Token in regards to US region.
  */
-getPriceUS = async () => {
+async function getPriceUS() {
   const authToken = await AuthTokenWrapper.getAuthToken();
   return new Promise((resolve, reject) => {
     fetch(WowTokenUrls.Price.US, {
@@ -46,7 +46,7 @@ getPriceUS = async () => {
       })
       .catch(error => {
         return reject(JSON.stringify(error));
-      })
+      });
   });
 }
 
