@@ -5,6 +5,7 @@ const path = require('path');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('./config/config');
+const _ = require('lodash');
 
 // Token requires
 const WoWTokenWrapper = require('./server/Wrappers/WoW/WoWTokenWrapper');
@@ -13,6 +14,9 @@ const WoWTokenUrls = require('./server/Urls/WoW/WoWToken');
 // Affix requires
 const MythicKeystoneAffixWrapper = require('./server/Wrappers/WoW/MythicKeystoneAffixWrapper');
 const MythicKeystoneAffixUrls = require('./server/Urls/WoW/MythicKeystoneAffix');
+
+const CharacterWrapper = require('./server/Wrappers/WoW/CharacterWrapper');
+const CharacterUrls = require('./server/Urls/WoW/Character');
 
 // Instantiate express app and assign a port.
 const app = express();
@@ -24,8 +28,11 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 // Security
 app.use(helmet());
 
-// Body Parser
+// Body Parser config
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // CORS Security
 app.use(cors());
@@ -81,7 +88,7 @@ app.get(MythicKeystoneAffixUrls.Request.All.EU, (req, res) => {
       return res.status(404).send({
         error
       });
-    })
+    });
 });
 
 /**
@@ -89,7 +96,7 @@ app.get(MythicKeystoneAffixUrls.Request.All.EU, (req, res) => {
  * 
  * All affixes for US realms.
  */
-app.get(MythicKeystoneAffixUrls.Request.All.US, async (req, res) => {
+app.get(MythicKeystoneAffixUrls.Request.All.US, (req, res) => {
   MythicKeystoneAffixWrapper.getAllAffixesUS()
     .then(affixes => {
       return res.status(200).send(affixes);
@@ -98,7 +105,7 @@ app.get(MythicKeystoneAffixUrls.Request.All.US, async (req, res) => {
       return res.status(404).send({
         error
       });
-    })
+    });
 });
 
 /**
@@ -122,7 +129,7 @@ app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
       return res.status(404).send({
         error
       });
-    })
+    });
 });
 
 /**
@@ -146,7 +153,31 @@ app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
       return res.status(404).send({
         error
       });
+    });
+});
+
+/**
+ * GET
+ * 
+ * Character, based on passed in region, realm and name.
+ */
+app.get("/character", (req, res) => {
+  const { region, realm, name } = req.body;
+  if (_.isUndefined(region) || _.isUndefined(realm) || _.isUndefined(name)) {
+    return res.status(400).send({
+      error: `All 3 parameters are required - Region, Realm and Name.`
     })
+  }
+
+  CharacterWrapper.getCharacter(region, realm, name)
+    .then(character => {
+      return res.status(200).send(character);
+    })
+    .catch(error => {
+      return res.status(404).send({
+        error
+      });
+    });
 });
 
 /**
