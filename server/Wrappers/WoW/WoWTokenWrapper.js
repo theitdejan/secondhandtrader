@@ -1,8 +1,7 @@
 /**
  * The request implementations.
  */
-const AuthTokenUrls = require("../../Urls/Battle-Net/AuthToken");
-const config = require("../../../config/config");
+const AuthTokenWrapper = require("../Battle-Net/AuthTokenWrapper");
 const fetch = require("node-fetch");
 
 // Model
@@ -14,29 +13,16 @@ const WowTokenUrls = require("../../Urls/WoW/WoWToken");
 /**
  * Get the price of the WoW Token in regards to EU region.
  */
-getPriceEU = () => {
+getPriceEU = async () => {
+  const authToken = await AuthTokenWrapper.getAuthToken();
   return new Promise((resolve, reject) => {
-    const base64token = Buffer.from(config.bnet.clientId + ":" + config.bnet.clientSecret).toString("Base64");
-    fetch(AuthTokenUrls.Oauth.EU, {
-      body: "grant_type=client_credentials",
+    fetch(WowTokenUrls.Price.EU, {
       headers: {
-        Authorization: `Basic ${base64token}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST"
-    }).then(response => response.json())
-      .then(token => {
-        fetch(WowTokenUrls.Price.EU, {
-          headers: {
-            Authorization: `Bearer ${token.access_token}`
-          }
-        }).then(auth => auth.json())
-          .then(wt => {
-            return resolve(new WoWToken("EU", wt.price, wt.last_updated_timestamp));
-          })
-          .catch(error => {
-            return reject(JSON.stringify(error));
-          })
+        Authorization: `Bearer ${authToken}`
+      }
+    }).then(auth => auth.json())
+      .then(wt => {
+        return resolve(new WoWToken("EU", wt.price, wt.last_updated_timestamp));
       })
       .catch(error => {
         return reject(JSON.stringify(error));
@@ -47,29 +33,16 @@ getPriceEU = () => {
 /**
  * Get the price of the WoW Token in regards to US region.
  */
-getPriceUS = () => {
+getPriceUS = async () => {
+  const authToken = await AuthTokenWrapper.getAuthToken();
   return new Promise((resolve, reject) => {
-    const base64token = Buffer.from(config.bnet.clientId + ":" + config.bnet.clientSecret).toString("Base64");
-    fetch(AuthTokenUrls.Oauth.EU, {
-      body: "grant_type=client_credentials",
+    fetch(WowTokenUrls.Price.US, {
       headers: {
-        Authorization: `Basic ${base64token}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST"
-    }).then(response => response.json())
-      .then(token => {
-        fetch(WowTokenUrls.Price.US, {
-          headers: {
-            Authorization: `Bearer ${token.access_token}`
-          }
-        }).then(auth => auth.json())
-          .then(wt => {
-            return resolve(new WoWToken("US", wt.price, wt.last_updated_timestamp));
-          })
-          .catch(error => {
-            return reject(JSON.stringify(error));
-          })
+        Authorization: `Bearer ${authToken}`
+      }
+    }).then(auth => auth.json())
+      .then(wt => {
+        return resolve(new WoWToken("US", wt.price, wt.last_updated_timestamp));
       })
       .catch(error => {
         return reject(JSON.stringify(error));

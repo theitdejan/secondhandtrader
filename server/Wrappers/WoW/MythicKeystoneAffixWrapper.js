@@ -1,8 +1,7 @@
 /**
  * The request implementations.
  */
-const AuthTokenUrls = require("../../Urls/Battle-Net/AuthToken");
-const config = require("../../../config/config");
+const AuthTokenWrapper = require("../Battle-Net/AuthTokenWrapper");
 const fetch = require("node-fetch");
 const _ = require("lodash");
 
@@ -16,37 +15,31 @@ const MythicKeystoneAffixUrls = require("../../Urls/WoW/MythicKeystoneAffix");
  * Retrieve all affixes in EU realms. Usually they are the same as US, but sometimes Blizzard does unexpected things.
  */
 getAllAffixesEU = async () => {
-  const base64token = Buffer.from(config.bnet.clientId + ":" + config.bnet.clientSecret).toString("Base64");
-  const authentication = await fetch(AuthTokenUrls.Oauth.EU, {
-    body: "grant_type=client_credentials",
-    headers: {
-      Authorization: `Basic ${base64token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    method: "POST"
-  });
-
-  const authToken = await authentication.json();
+  const authToken = await AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.AllAffixes.EU, {
     headers: {
-      Authorization: `Bearer ${authToken.access_token}`
+      Authorization: `Bearer ${authToken}`
     }
   });
 
   const response = await initialResponse.json();
+  if (response.code == 404) {
+    throw `Could not request affixes. Either URL is wrong, or there are no affixes.`;
+  }
+
   var { affixes } = response;
   if (affixes.length > 0) {
     const affixArray = affixes.map(async affix => {
       const singleAffixUnparsed = await fetch(MythicKeystoneAffixUrls.ById(affix.id, "EU"), {
         headers: {
-          Authorization: `Bearer ${authToken.access_token}`
+          Authorization: `Bearer ${authToken}`
         }
       })
       const singleAffix = await singleAffixUnparsed.json();
 
       const mediaUnparsed = await fetch(MythicKeystoneAffixUrls.Image(singleAffix.media.id, "EU"), {
         headers: {
-          Authorization: `Bearer ${authToken.access_token}`
+          Authorization: `Bearer ${authToken}`
         }
       });
       const media = await mediaUnparsed.json();
@@ -72,37 +65,31 @@ getAllAffixesEU = async () => {
  * Retrieve all affixes in US realms. Usually they are the same as EU, but sometimes Blizzard does unexpected things.
  */
 getAllAffixesUS = async () => {
-  const base64token = Buffer.from(config.bnet.clientId + ":" + config.bnet.clientSecret).toString("Base64");
-  const authentication = await fetch(AuthTokenUrls.Oauth.EU, {
-    body: "grant_type=client_credentials",
-    headers: {
-      Authorization: `Basic ${base64token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    method: "POST"
-  });
-
-  const authToken = await authentication.json();
+  const authToken = AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.AllAffixes.US, {
     headers: {
-      Authorization: `Bearer ${authToken.access_token}`
+      Authorization: `Bearer ${authToken}`
     }
   });
 
   const response = await initialResponse.json();
+  if (response.code == 404) {
+    throw `Could not request affixes. Either URL is wrong, or there are no affixes.`;
+  }
+
   var { affixes } = response;
   if (affixes.length > 0) {
     const affixArray = affixes.map(async affix => {
       const singleAffixUnparsed = await fetch(MythicKeystoneAffixUrls.ById(affix.id, "US"), {
         headers: {
-          Authorization: `Bearer ${authToken.access_token}`
+          Authorization: `Bearer ${authToken}`
         }
       })
       const singleAffix = await singleAffixUnparsed.json();
 
       const mediaUnparsed = await fetch(MythicKeystoneAffixUrls.Image(singleAffix.media.id, "US"), {
         headers: {
-          Authorization: `Bearer ${authToken.access_token}`
+          Authorization: `Bearer ${authToken}`
         }
       });
       const media = await mediaUnparsed.json();
@@ -128,27 +115,21 @@ getAllAffixesUS = async () => {
  * Retrieve single affix with the ID specified from the EU realms.
  */
 getSingleAffixEU = async (id) => {
-  const base64token = Buffer.from(config.bnet.clientId + ":" + config.bnet.clientSecret).toString("Base64");
-  const authentication = await fetch(AuthTokenUrls.Oauth.EU, {
-    body: "grant_type=client_credentials",
-    headers: {
-      Authorization: `Basic ${base64token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    method: "POST"
-  });
-
-  const authToken = await authentication.json();
+  const authToken = await AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.ById(id, "EU"), {
     headers: {
-      Authorization: `Bearer ${authToken.access_token}`
+      Authorization: `Bearer ${authToken}`
     }
   });
 
   const response = await initialResponse.json();
+  if (response.code == 404) {
+    throw `Could not find affix with id ${id}.`;
+  }
+
   const mediaUnparsed = await fetch(MythicKeystoneAffixUrls.Image(response.media.id, "EU"), {
     headers: {
-      Authorization: `Bearer ${authToken.access_token}`
+      Authorization: `Bearer ${authToken}`
     }
   });
 
@@ -162,27 +143,21 @@ getSingleAffixEU = async (id) => {
  * Retrieve single affix with the ID specified from the US realms.
  */
 getSingleAffixUS = async (id) => {
-  const base64token = Buffer.from(config.bnet.clientId + ":" + config.bnet.clientSecret).toString("Base64");
-  const authentication = await fetch(AuthTokenUrls.Oauth.EU, {
-    body: "grant_type=client_credentials",
-    headers: {
-      Authorization: `Basic ${base64token}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    method: "POST"
-  });
-
-  const authToken = await authentication.json();
+  const authToken = await AuthTokenWrapper.getAuthToken();
   const initialResponse = await fetch(MythicKeystoneAffixUrls.ById(id, "US"), {
     headers: {
-      Authorization: `Bearer ${authToken.access_token}`
+      Authorization: `Bearer ${authToken}`
     }
   });
 
   const response = await initialResponse.json();
+  if (response.code == 404) {
+    throw `Could not find affix with id ${id}.`;
+  }
+
   const mediaUnparsed = await fetch(MythicKeystoneAffixUrls.Image(response.media.id, "US"), {
     headers: {
-      Authorization: `Bearer ${authToken.access_token}`
+      Authorization: `Bearer ${authToken}`
     }
   });
 
