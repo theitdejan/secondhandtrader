@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // HTTP Request Logging inside console window.
-app.use(morgan('combined'));
+app.use(morgan('tiny'));
 
 /**
  * GET
@@ -44,7 +44,9 @@ app.get(WoWTokenUrls.Request.Price.EU, (req, res) => {
       return res.status(200).send(wowtoken);
     })
     .catch(error => {
-      return res.status(404).send(JSON.stringify(error));
+      return res.status(404).send({
+        error
+      });
     });
 });
 
@@ -59,7 +61,9 @@ app.get(WoWTokenUrls.Request.Price.US, (req, res) => {
       return res.status(200).send(wowtoken);
     })
     .catch(error => {
-      return res.status(404).send(JSON.stringify(error));
+      return res.status(404).send({
+        error
+      });
     });
 });
 
@@ -74,7 +78,9 @@ app.get(MythicKeystoneAffixUrls.Request.All.EU, (req, res) => {
       return res.status(200).send(affixes);
     })
     .catch(error => {
-      return res.status(404).send(JSON.stringify(error));
+      return res.status(404).send({
+        error
+      });
     })
 });
 
@@ -89,7 +95,9 @@ app.get(MythicKeystoneAffixUrls.Request.All.US, async (req, res) => {
       return res.status(200).send(affixes);
     })
     .catch(error => {
-      return res.status(404).send(JSON.stringify(error));
+      return res.status(404).send({
+        error
+      });
     })
 });
 
@@ -101,7 +109,9 @@ app.get(MythicKeystoneAffixUrls.Request.All.US, async (req, res) => {
 app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
   const { id } = req.params;
   if (id === undefined || id <= 0) {
-    return res.status(400).send("Id parameter has to be present, and greater than 0.");
+    return res.status(400).send({
+      error: "Id parameter has to be present, and greater than 0."
+    });
   }
 
   MythicKeystoneAffixWrapper.getSingleAffixEU(id)
@@ -109,7 +119,9 @@ app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
       return res.status(200).send(affix);
     })
     .catch(error => {
-      return res.status(404).send(JSON.stringify(error));
+      return res.status(404).send({
+        error
+      });
     })
 });
 
@@ -121,7 +133,9 @@ app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
 app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
   const { id } = req.params;
   if (id === undefined || id <= 0) {
-    return res.status(400).send("Id parameter has to be present, and greater than 0.");
+    return res.status(400).send({
+      error: "Id parameter has to be present, and greater than 0."
+    });
   }
 
   MythicKeystoneAffixWrapper.getSingleAffixUS(id)
@@ -129,7 +143,9 @@ app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
       return res.status(200).send(affix);
     })
     .catch(error => {
-      return res.status(404).send(JSON.stringify(error));
+      return res.status(404).send({
+        error
+      });
     })
 });
 
