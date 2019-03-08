@@ -1,6 +1,3 @@
-/**
- * The request implementations.
- */
 const AuthTokenWrapper = require("../Battle-Net/AuthTokenWrapper");
 const fetch = require("node-fetch");
 

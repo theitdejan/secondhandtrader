@@ -17,8 +17,10 @@ var authTokenCache = {
 
 /**
  * Retrieve Battle-Net authentication token.
+ * 
+ * @param {Boolean} recreate - Request new token regardless of the last time it was requested.
  */
-getAuthToken = async () => {
+async function getAuthToken(recreate = false) {
   if (_.isUndefined(authTokenCache.token) || _.isUndefined(authTokenCache.lastTimeRequested)) {
     console.log(`Requesting new Battle-Net token.`);
     const token = await retrieveTokenFromBnet();
