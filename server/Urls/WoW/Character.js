@@ -4,12 +4,12 @@
 exports.Single = (region, realm, name) => {
 	// TODO: Will have to parse the "fields" parameter and add them to the url request
 	switch (region) {
-	case "EU":
-		return `https://eu.api.blizzard.com/wow/character/${realm}/${name}?locale=en_GB`;
-	case "US":
-		return `https://us.api.blizzard.com/wow/character/${realm}/${name}?locale=en_US`;
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return `https://eu.api.blizzard.com/wow/character/${realm}/${name}?locale=en_GB`;
+		case "US":
+			return `https://us.api.blizzard.com/wow/character/${realm}/${name}?locale=en_US`;
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 };
 

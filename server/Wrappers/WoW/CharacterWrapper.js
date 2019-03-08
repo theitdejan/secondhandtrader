@@ -48,12 +48,12 @@ async function getCharacterUS(realm, name) {
  */
 async function getCharacter(region, realm, name) {
 	switch (region) {
-	case "EU":
-		return getCharacterEU(realm, name);
-	case "US":
-		return getCharacterUS(realm, name);
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return getCharacterEU(realm, name);
+		case "US":
+			return getCharacterUS(realm, name);
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 }
 

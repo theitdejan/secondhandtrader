@@ -49,7 +49,6 @@ async function getAllAffixesEU() {
 		});
 
 		const retAffixes = await Promise.all(affixArray).catch(error => error);
-
 		return retAffixes;
 	} else {
 		return new Array();
@@ -97,7 +96,6 @@ async function getAllAffixesUS() {
 		});
 
 		const retAffixes = await Promise.all(affixArray).catch(error => error);
-
 		return retAffixes;
 	} else {
 		return new Array();

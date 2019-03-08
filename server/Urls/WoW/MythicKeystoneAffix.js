@@ -3,12 +3,12 @@
 */
 exports.ById = (id, region) => {
 	switch (region) {
-	case "EU":
-		return `https://eu.api.blizzard.com/data/wow/keystone-affix/${id}?namespace=static-eu&locale=en_GB`;
-	case "US":
-		return `https://us.api.blizzard.com/data/wow/keystone-affix/${id}?namespace=static-us&locale=en_US`;
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return `https://eu.api.blizzard.com/data/wow/keystone-affix/${id}?namespace=static-eu&locale=en_GB`;
+		case "US":
+			return `https://us.api.blizzard.com/data/wow/keystone-affix/${id}?namespace=static-us&locale=en_US`;
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 };
 
@@ -17,12 +17,12 @@ exports.ById = (id, region) => {
  */
 exports.Image = (id, region) => {
 	switch (region) {
-	case "EU":
-		return `https://eu.api.blizzard.com/data/wow/media/keystone-affix/${id}?namespace=static-eu&locale=en_GB`;
-	case "US":
-		return `https://us.api.blizzard.com/data/wow/media/keystone-affix/${id}?namespace=static-us&locale=en_US`;
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return `https://eu.api.blizzard.com/data/wow/media/keystone-affix/${id}?namespace=static-eu&locale=en_GB`;
+		case "US":
+			return `https://us.api.blizzard.com/data/wow/media/keystone-affix/${id}?namespace=static-us&locale=en_US`;
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 };
 
