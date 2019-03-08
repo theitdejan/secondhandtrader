@@ -3,12 +3,12 @@
 */
 exports.All = (region) => {
 	switch (region) {
-	case "EU":
-		return "https://eu.api.blizzard.com/data/wow/realm/index?namespace=dynamic-eu&locale=en_GB";
-	case "US":
-		return "https://us.api.blizzard.com/data/wow/realm/index?namespace=dynamic-us&locale=en_US";
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return "https://eu.api.blizzard.com/data/wow/realm/index?namespace=dynamic-eu&locale=en_GB";
+		case "US":
+			return "https://us.api.blizzard.com/data/wow/realm/index?namespace=dynamic-us&locale=en_US";
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 };
 
@@ -17,12 +17,12 @@ exports.All = (region) => {
  */
 exports.SingleById = (region, id) => {
 	switch (region) {
-	case "EU":
-		return `https://eu.api.blizzard.com/data/wow/realm/${id}?namespace=dynamic-eu&locale=en_GB`;
-	case "US":
-		return `https://us.api.blizzard.com/data/wow/realm/${id}?namespace=dynamic-us&locale=en_US`;
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return `https://eu.api.blizzard.com/data/wow/realm/${id}?namespace=dynamic-eu&locale=en_GB`;
+		case "US":
+			return `https://us.api.blizzard.com/data/wow/realm/${id}?namespace=dynamic-us&locale=en_US`;
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 };
 
@@ -31,12 +31,12 @@ exports.SingleById = (region, id) => {
  */
 exports.SingleBySlug = (region, slug) => {
 	switch (region) {
-	case "EU":
-		return `https://eu.api.blizzard.com/data/wow/realm/${slug}?namespace=dynamic-eu&locale=en_GB`;
-	case "US":
-		return `https://us.api.blizzard.com/data/wow/realm/${slug}?namespace=dynamic-us&locale=en_US`;
-	default:
-		throw `Region ${region} does not exist, or is not yet implemented.`;
+		case "EU":
+			return `https://eu.api.blizzard.com/data/wow/realm/${slug}?namespace=dynamic-eu&locale=en_GB`;
+		case "US":
+			return `https://us.api.blizzard.com/data/wow/realm/${slug}?namespace=dynamic-us&locale=en_US`;
+		default:
+			throw `Region ${region} does not exist, or is not yet implemented.`;
 	}
 };
 
