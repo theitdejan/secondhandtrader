@@ -3,13 +3,9 @@
  */
 class Character {
   /**
+   * Create new character.
    * 
-   * @param {String} name - Character name
-   * @param {Integer} level - Character level
-   * @param {String} gender - Character gender
-   * @param {String} race - Character race
-   * @param {String} klass - Character class
-   * @param {Array} params - Array of the (currently unimportant) parameters
+   * @param {Object} param - Object containing individual properties, to be destructured.
    */
   constructor({ name, level, gender, race, class: klass, realm, thumbnail, ...rest }) {
     this.name = name;
