@@ -9,14 +9,16 @@ class Character {
    * @param {String} gender - Character gender
    * @param {String} race - Character race
    * @param {String} klass - Character class
-   * @param {Array} rest - Rest of the (currently unimportant) parameters
+   * @param {Array} params - Array of the (currently unimportant) parameters
    */
-  constructor(name, level, gender, race, klass, ...rest) {
+  constructor({ name, level, gender, race, class: klass, realm, thumbnail, ...rest }) {
     this.name = name;
     this.level = level;
     this.gender = gender;
     this.race = race;
-    this.klass = klass;
+    this.class = klass;
+    this.realm = realm;
+    this.thumbnail = thumbnail;
     this.params = rest;
   }
 
