@@ -15,8 +15,13 @@ const WoWTokenUrls = require('./server/Urls/WoW/WoWToken');
 const MythicKeystoneAffixWrapper = require('./server/Wrappers/WoW/MythicKeystoneAffixWrapper');
 const MythicKeystoneAffixUrls = require('./server/Urls/WoW/MythicKeystoneAffix');
 
+// Character requires
 const CharacterWrapper = require('./server/Wrappers/WoW/CharacterWrapper');
 const CharacterUrls = require('./server/Urls/WoW/Character');
+
+// Realm requires
+const RealmWrapper = require('./server/Wrappers/WoW/RealmWrapper');
+const RealmUrls = require('./server/Urls/WoW/Realm');
 
 // Instantiate express app and assign a port.
 const app = express();
@@ -51,6 +56,7 @@ app.get(WoWTokenUrls.Request.Price.EU, (req, res) => {
       return res.status(200).send(wowtoken);
     })
     .catch(error => {
+      console.log(error);
       return res.status(404).send({
         error
       });
@@ -68,6 +74,7 @@ app.get(WoWTokenUrls.Request.Price.US, (req, res) => {
       return res.status(200).send(wowtoken);
     })
     .catch(error => {
+      console.log(error);
       return res.status(404).send({
         error
       });
@@ -85,6 +92,7 @@ app.get(MythicKeystoneAffixUrls.Request.All.EU, (req, res) => {
       return res.status(200).send(affixes);
     })
     .catch(error => {
+      console.log(error);
       return res.status(404).send({
         error
       });
@@ -102,6 +110,7 @@ app.get(MythicKeystoneAffixUrls.Request.All.US, (req, res) => {
       return res.status(200).send(affixes);
     })
     .catch(error => {
+      console.log(error);
       return res.status(404).send({
         error
       });
@@ -115,7 +124,7 @@ app.get(MythicKeystoneAffixUrls.Request.All.US, (req, res) => {
  */
 app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
   const { id } = req.params;
-  if (id === undefined || id <= 0) {
+  if (_.isUndefined(id) || id <= 0) {
     return res.status(400).send({
       error: "Id parameter has to be present, and greater than 0."
     });
@@ -126,6 +135,7 @@ app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
       return res.status(200).send(affix);
     })
     .catch(error => {
+      console.log(error);
       return res.status(404).send({
         error
       });
@@ -139,7 +149,7 @@ app.get(MythicKeystoneAffixUrls.Request.Single.EU, (req, res) => {
  */
 app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
   const { id } = req.params;
-  if (id === undefined || id <= 0) {
+  if (_.isUndefined(id) || id <= 0) {
     return res.status(400).send({
       error: "Id parameter has to be present, and greater than 0."
     });
@@ -148,6 +158,31 @@ app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
   MythicKeystoneAffixWrapper.getSingleAffixUS(id)
     .then(affix => {
       return res.status(200).send(affix);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(404).send({
+        error
+      });
+    });
+});
+
+/**
+ * GET
+ * 
+ * EU based character, with the passed in realm and name.
+ */
+app.get(CharacterUrls.Request.Single.EU, (req, res) => {
+  const { realm, name } = req.body;
+  if (_.isUndefined(realm) || _.isUndefined(name)) {
+    return res.status(400).send({
+      error: `Both Realm and Name parameters are required.`
+    });
+  }
+
+  CharacterWrapper.getCharacter("EU", realm, name)
+    .then(character => {
+      return res.status(200).send(character);
     })
     .catch(error => {
       return res.status(404).send({
@@ -159,21 +194,126 @@ app.get(MythicKeystoneAffixUrls.Request.Single.US, (req, res) => {
 /**
  * GET
  * 
- * Character, based on passed in region, realm and name.
+ * US based character, with the passed in realm and name.
  */
-app.get("/character", (req, res) => {
-  const { region, realm, name } = req.body;
-  if (_.isUndefined(region) || _.isUndefined(realm) || _.isUndefined(name)) {
+app.get(CharacterUrls.Request.Single.US, (req, res) => {
+  const { realm, name } = req.body;
+  if (_.isUndefined(realm) || _.isUndefined(name)) {
     return res.status(400).send({
-      error: `All 3 parameters are required - Region, Realm and Name.`
-    })
+      error: `Both Realm and Name parameters are required.`
+    });
   }
 
-  CharacterWrapper.getCharacter(region, realm, name)
+  CharacterWrapper.getCharacter("US", realm, name)
     .then(character => {
       return res.status(200).send(character);
     })
     .catch(error => {
+      console.log(error);
+      return res.status(404).send({
+        error
+      });
+    });
+});
+
+/**
+ * GET
+ * 
+ * EU based realm, with the passed in ID.
+ */
+app.get(RealmUrls.Request.Single.EU, (req, res) => {
+  const { id } = req.params;
+  if (_.isUndefined(id) || id <= 0) {
+    return res.status(400).send({
+      error: "Id parameter has to be present, and greater than 0."
+    });
+  }
+
+  RealmWrapper.getById("EU", id)
+    .then(realm => {
+      return res.status(200).send(realm);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(404).send({
+        error
+      });
+    });
+});
+
+/**
+ * GET
+ * 
+ * US based realm, with the passed in ID. 
+ */
+app.get(RealmUrls.Request.Single.US, (req, res) => {
+  const { id } = req.params;
+  if (_.isUndefined(id) || id <= 0) {
+    return res.status(400).send({
+      error: "Id parameter has to be present, and greater than 0."
+    });
+  }
+
+  RealmWrapper.getById("US", id)
+    .then(realm => {
+      return res.status(200).send(realm);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(404).send({
+        error
+      });
+    });
+});
+
+/**
+ * GET
+ * 
+ * All EU realms.
+ */
+app.get(RealmUrls.Request.All.EU, (req, res) => {
+  RealmWrapper.all("EU")
+    .then(realms => {
+      return res.status(200).send(realms);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(404).send({
+        error
+      });
+    });
+});
+
+/**
+ * GET
+ * 
+ * All US realms.
+ */
+app.get(RealmUrls.Request.All.US, (req, res) => {
+  RealmWrapper.all("US")
+    .then(realms => {
+      return res.status(200).send(realms);
+    })
+    .catch(error => {
+      console.log(error);
+      return res.status(404).send({
+        error
+      });
+    });
+});
+
+/**
+ * GET
+ * 
+ * All realms.
+ */
+app.get(RealmUrls.Request.All.Global, (req, res) => {
+  RealmWrapper.all("Global")
+    .then(realms => {
+      return res.status(200).send(realms);
+    })
+    .catch(error => {
+      console.log(error);
       return res.status(404).send({
         error
       });
