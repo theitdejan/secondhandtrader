@@ -1,8 +1,4 @@
 /**
- * Holds URL mappings in regards to MythicKeystoneAffix requests.
- */
-
-/**
 * Retrieve URL for the specified Affix ID and Region.
 */
 exports.ById = (id, region) => {

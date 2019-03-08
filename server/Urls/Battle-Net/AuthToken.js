@@ -1,8 +1,4 @@
 /**
- * Holds URL mappings in regards to AuthToken requests.
- */
-
-/**
  * AuthToken API urls.
  */
 exports.Oauth = {

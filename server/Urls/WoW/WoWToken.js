@@ -1,8 +1,4 @@
 /**
- * Holds URL mappings in regards to WoWToken requests.
- */
-
-/**
  * WoW Token API urls.
  */
 exports.Price = {
