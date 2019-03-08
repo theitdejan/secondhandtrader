@@ -1,7 +1,7 @@
 /**
  * Retrieve an API url for the Character with the specified params.
  */
-exports.Single = (region, realm, name, ...fields) => {
+exports.Single = (region, realm, name) => {
   // TODO: Will have to parse the "fields" parameter and add them to the url request
   switch (region) {
     case 'EU':
