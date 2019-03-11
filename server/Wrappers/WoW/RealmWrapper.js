@@ -23,7 +23,7 @@ async function getById(region, id) {
 		throw `Realm in region ${region} with the id '${id}' does not exist.`;
 	}
 
-	return new Realm(response);
+	return new Realm(response, region);
 }
 
 /**
@@ -45,7 +45,7 @@ async function getBySlug(region, slug) {
 		throw `Realm in region ${region} with the slug '${slug}' does not exist.`;
 	}
 
-	return new Realm(response);
+	return new Realm(response, region);
 }
 
 /**
@@ -68,10 +68,17 @@ async function all(region) {
 
 	var returnArray = new Array();
 	_.forEach(response.realms, realm => {
-		returnArray.push(new Realm(realm));
+		returnArray.push(new Realm(realm, region));
 	});
 
 	return returnArray;
+}
+
+/**
+ * Get all realms for all regions.
+ */
+async function global() {
+	throw "Not implemented.";
 }
 
 /**
@@ -80,7 +87,8 @@ async function all(region) {
 const RealmWrapper = {
 	getById,
 	getBySlug,
-	all
+	all,
+	global
 };
 
 module.exports = RealmWrapper;

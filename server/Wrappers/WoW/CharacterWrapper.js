@@ -42,7 +42,7 @@ async function getCharacterUS(realm, name) {
 /**
  * Get character depending on passed in parameters.
  * 
- * @param {String} region - Battle.net region
+ * @param {String} region - Battle.Net region
  * @param {String} realm - Character realm
  * @param {String} name - Character name
  */
