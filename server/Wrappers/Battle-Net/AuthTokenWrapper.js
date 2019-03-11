@@ -46,6 +46,12 @@ async function getAuthToken(recreate = false) {
 			token,
 			lastTimeRequested: new Date()
 		};
+	} else if (recreate) {
+		const token = await retrieveTokenFromBnet();
+		authTokenCache = {
+			token,
+			lastTimeRequested: new Date()
+		};
 	} else {
 		if (authTokenCache.lastTimeRequested < (Date.now() - (minute * 5))) {
 			const token = await retrieveTokenFromBnet();
