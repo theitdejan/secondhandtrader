@@ -7,7 +7,7 @@ class Realm {
    * 
    * @param {Object} param - Object containing individual properties, to be destructured.
    */
-	constructor({ id, name, slug, timezone, category, type, is_tournament: isTournament, ...rest }) {
+	constructor({ id, name, slug, timezone, category, type, is_tournament: isTournament, ...rest }, region) {
 		this.id = id;
 		this.name = name;
 		this.slug = slug;
@@ -16,6 +16,7 @@ class Realm {
 		this.type = type;
 		this.isTournament = isTournament;
 		this.rest = rest;
+		this.region = region;
 	}
 }
 
