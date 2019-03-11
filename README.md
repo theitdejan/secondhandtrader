@@ -2,9 +2,10 @@
 
 Retrieve information from the Blizzard API's.
 Currently working on:
- - Mythic+ & Affixes (EU/US)
+ - Mythic+ Ranks & Affixes (EU/US)
  - WoW Token (EU/US)
  - Characters & Achievments (EU/US)
+ - Realms (EU/US)
 
 # Install
 After performing <code>git clone</code>, you'll have to create a config folder and file starting from root directory,
